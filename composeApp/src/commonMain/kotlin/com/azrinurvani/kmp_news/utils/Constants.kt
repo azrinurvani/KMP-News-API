@@ -1,5 +1,9 @@
 package com.azrinurvani.kmp_news.utils
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import com.azrinurvani.kmp_news.data.model.Article
 import com.azrinurvani.kmp_news.data.model.Source
 import com.azrinurvani.kmp_news.ui.navigation.BottomNavigationItem
@@ -79,3 +83,11 @@ val articles: List<Article> = listOf(
         content = "What is the content?"
     )
 )
+
+val FadeIn = fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+        scaleIn(
+            initialScale = 0.92f,
+            animationSpec = tween(220, delayMillis = 90)
+        )
+
+val FadeOut = fadeOut(animationSpec = tween(90))
