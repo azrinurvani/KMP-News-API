@@ -41,16 +41,12 @@ fun MainScreen(
 
     val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
 
-    var previousRoute by rememberSaveable(navBackStackEntry){
+    var previousRoute by rememberSaveable{
         mutableStateOf(navBackStackEntry?.destination?.route)
     }
 
-    val currentRoute by rememberSaveable(navBackStackEntry){
-        mutableStateOf( navBackStackEntry?.destination?.route)
-
-//        derivedStateOf { //error
-//            navBackStackEntry?.destination?.route ?: bottomNavigationList[0].title.toString()
-//        }
+    val currentRoute by remember(navBackStackEntry){
+        derivedStateOf { navBackStackEntry?.destination?.route }
     }
 
     val topBarTitle by remember(currentRoute) {
@@ -67,10 +63,9 @@ fun MainScreen(
     }
 
     DisposableEffect(Unit){
-        previousRoute = currentRoute
-        println("previous route = $previousRoute")
         onDispose {
-
+            previousRoute = currentRoute
+            println("previous route = $previousRoute")
         }
     }
 
