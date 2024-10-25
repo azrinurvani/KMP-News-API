@@ -1,27 +1,41 @@
 package com.azrinurvani.kmp_news.ui.search
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import com.azrinurvani.kmp_news.theme.mediumPadding
+import com.azrinurvani.kmp_news.ui.common.ArticleListScreen
+import com.azrinurvani.kmp_news.ui.search.components.SearchBar
+import com.azrinurvani.kmp_news.utils.articles
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier
 ){
-    Box(
-        modifier = modifier
-    ){
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = "Search Screen",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
+
+   Column(
+       modifier = modifier,
+       verticalArrangement = Arrangement.spacedBy(mediumPadding)
+   ) {
+
+       SearchBar(
+           text = searchQuery,
+           onValueChange = {
+               searchQuery = it
+           },
+           onSearch = { query->
+               if (query.trim().isNotEmpty()) {
+                   println("searchQuery : $query")
+               }
+           },
+       )
+
+       ArticleListScreen(articleList = articles)
+   }
 }
