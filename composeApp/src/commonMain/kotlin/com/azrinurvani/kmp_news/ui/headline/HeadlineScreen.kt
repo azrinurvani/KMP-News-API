@@ -10,6 +10,11 @@ import com.azrinurvani.kmp_news.data.repository.OnlineNewsRepository
 import com.azrinurvani.kmp_news.ui.common.ArticleListScreen
 import com.azrinurvani.kmp_news.ui.common.EmptyContent
 import com.azrinurvani.kmp_news.ui.common.ShimmerEffect
+import kmp_news.composeapp.generated.resources.Res
+import kmp_news.composeapp.generated.resources.ic_browse
+import kmp_news.composeapp.generated.resources.ic_network_error
+import kmp_news.composeapp.generated.resources.no_news
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun HeadlineScreen(
@@ -33,7 +38,13 @@ fun HeadlineScreen(
         },
         onSuccess = { articlesList->
             if (articlesList.isEmpty()){
-                EmptyContent("No data")
+                EmptyContent(
+                    message = stringResource(Res.string.no_news),
+                    icon = Res.drawable.ic_browse,
+                    onRetryClicked = {
+                        headlineViewModel.getHeadline()
+                    }
+                )
             }else{
                 ArticleListScreen(
                     articleList = articlesList,
@@ -46,8 +57,14 @@ fun HeadlineScreen(
 //                ArticleListScreen(articleList = articles)
 //            }
         },
-        onError = {
-            EmptyContent(it)
+        onError = { errorMessage->
+            EmptyContent(
+                message = errorMessage,
+                icon = Res.drawable.ic_network_error,
+                onRetryClicked = {
+                    headlineViewModel.getHeadline()
+                }
+            )
         }
     )
 

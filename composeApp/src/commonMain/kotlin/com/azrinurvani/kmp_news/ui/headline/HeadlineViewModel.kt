@@ -30,7 +30,7 @@ class HeadlineViewModel(
         getHeadline()
     }
 
-    private fun getHeadline() {
+    fun getHeadline() {
         viewModelScope.launch(Dispatchers.IO) {
             _newsStateFlow.emit(Resource.Loading)
             delay(2000)
