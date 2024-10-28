@@ -11,13 +11,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.azrinurvani.kmp_news.data.repository.OnlineNewsRepository
 import com.azrinurvani.kmp_news.theme.mediumPadding
 import com.azrinurvani.kmp_news.ui.common.ArticleListScreen
 import com.azrinurvani.kmp_news.ui.common.EmptyContent
 import com.azrinurvani.kmp_news.ui.common.ShimmerEffect
-import com.azrinurvani.kmp_news.ui.headline.HeadlineViewModel
 import com.azrinurvani.kmp_news.ui.search.components.SearchBar
-import com.azrinurvani.kmp_news.utils.articles
 
 @Composable
 fun SearchScreen(
@@ -27,7 +26,9 @@ fun SearchScreen(
     var searchQuery by rememberSaveable { mutableStateOf("") }
 
     val searchViewModel = viewModel{
-        SearchViewModel()
+        SearchViewModel(
+            onlineNewsRepository = OnlineNewsRepository()
+        )
     }
 
     val uiState by searchViewModel.newsStateFlow.collectAsState()

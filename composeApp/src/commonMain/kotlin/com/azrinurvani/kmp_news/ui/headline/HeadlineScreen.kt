@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.azrinurvani.kmp_news.data.repository.OnlineNewsRepository
 import com.azrinurvani.kmp_news.ui.common.ArticleListScreen
 import com.azrinurvani.kmp_news.ui.common.EmptyContent
 import com.azrinurvani.kmp_news.ui.common.ShimmerEffect
@@ -17,7 +18,9 @@ fun HeadlineScreen(
 ){
 
     val headlineViewModel = viewModel{
-        HeadlineViewModel()
+        HeadlineViewModel(
+            onlineNewsRepository = OnlineNewsRepository()
+        )
     }
 
     val uiState by headlineViewModel.newsStateFlow.collectAsState()

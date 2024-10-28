@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
+import com.azrinurvani.kmp_news.BuildKonfig
 import com.azrinurvani.kmp_news.data.model.Article
 import com.azrinurvani.kmp_news.data.model.Source
 import com.azrinurvani.kmp_news.ui.navigation.BottomNavigationItem
@@ -22,9 +23,10 @@ import org.jetbrains.compose.resources.StringResource
 import kotlin.random.Random
 
 
-//val API_KEY = BuildKonfig.API_KEY
-
+const val BASE_URL = "https://newsapi.org/v2/"
 const val dataStoreFileName = "setting.preferences_pb"
+
+val API_KEY = BuildKonfig.API_KEY
 
 enum class Type{
     Mobile,

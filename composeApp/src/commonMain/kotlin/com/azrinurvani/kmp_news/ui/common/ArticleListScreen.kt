@@ -16,6 +16,8 @@ import com.azrinurvani.kmp_news.utils.Type
 import com.azrinurvani.kmp_news.utils.articles
 import com.azrinurvani.kmp_news.utils.getRandomId
 import com.azrinurvani.kmp_news.utils.getType
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Composable
@@ -40,6 +42,10 @@ fun ArticleListScreen(
             ArticleItem(
                 article = article,
                 onClick = {
+                    val articleStr = Json.encodeToString(article)
+                    navController.currentBackStackEntry?.savedStateHandle?.apply {
+                        set("article", articleStr)
+                    }
                     navController.navigate(NewsRouteScreen.NewsDetail.route)
                 }
             )

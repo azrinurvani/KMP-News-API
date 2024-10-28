@@ -1,8 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-//import com.codingfeline.buildkonfig.compiler.FieldSpec
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-//import java.util.Properties
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,17 +10,19 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinx.serialization)
-//    alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
-//    androidTarget()
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-        }
-    }
+
+    androidTarget()
+
+//    androidTarget {
+//        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+//        compilerOptions {
+//            jvmTarget.set(JvmTarget.JVM_17)
+//        }
+//    }
 
     jvm("desktop")
     
@@ -75,6 +77,9 @@ kotlin {
             implementation(libs.ktor.logging)
             implementation(libs.ktor.negotiation)
             implementation(libs.kotlinx.serialization.json)
+
+            //Kermit  for logging
+            implementation(libs.kermit)
 
             //Data Store
             implementation(libs.androidx.data.store.core)
@@ -141,22 +146,22 @@ compose.desktop {
         }
     }
 }
-//buildkonfig {
-//    packageName = "com.azrinurvani.kmp_news"
-//
-//    val localProperties =
-//        Properties().apply {
-//            val propsFile = rootProject.file("local.properties")
-//            if (propsFile.exists()) {
-//                load(propsFile.inputStream())
-//            }
-//        }
-//
-//    defaultConfigs {
-//        buildConfigField(
-//            FieldSpec.Type.STRING,
-//            "API_KEY",
-//            localProperties["API_KEY"]?.toString() ?: "",
-//        )
-//    }
-//}
+buildkonfig {
+    packageName = "com.azrinurvani.kmp_news"
+
+    val localProperties =
+        Properties().apply {
+            val propsFile = rootProject.file("local.properties")
+            if (propsFile.exists()) {
+                load(propsFile.inputStream())
+            }
+        }
+
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "API_KEY",
+            localProperties["API_KEY"]?.toString() ?: "",
+        )
+    }
+}
