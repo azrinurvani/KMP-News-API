@@ -1,6 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+//import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+//import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,16 +10,18 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinx.serialization)
+//    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
+//    androidTarget()
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     jvm("desktop")
     
     listOf(
@@ -72,6 +76,9 @@ kotlin {
             implementation(libs.ktor.negotiation)
             implementation(libs.kotlinx.serialization.json)
 
+            //Data Store
+            implementation(libs.androidx.data.store.core)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -117,6 +124,11 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
+//tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+//    if (name != "kspCommonMainKotlinMetadata" ) {
+//        dependsOn("kspCommonMainKotlinMetadata")
+//    }
+//}
 
 compose.desktop {
     application {
@@ -129,3 +141,22 @@ compose.desktop {
         }
     }
 }
+//buildkonfig {
+//    packageName = "com.azrinurvani.kmp_news"
+//
+//    val localProperties =
+//        Properties().apply {
+//            val propsFile = rootProject.file("local.properties")
+//            if (propsFile.exists()) {
+//                load(propsFile.inputStream())
+//            }
+//        }
+//
+//    defaultConfigs {
+//        buildConfigField(
+//            FieldSpec.Type.STRING,
+//            "API_KEY",
+//            localProperties["API_KEY"]?.toString() ?: "",
+//        )
+//    }
+//}

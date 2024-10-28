@@ -5,12 +5,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.azrinurvani.kmp_news.ui.MainScreen
+import com.azrinurvani.kmp_news.ui.detail.ArticleDetailScreen
 import com.azrinurvani.kmp_news.ui.navigation.Graph
+import com.azrinurvani.kmp_news.ui.navigation.NewsRouteScreen
 import com.azrinurvani.kmp_news.ui.navigation.SettingRouteScreen
 import com.azrinurvani.kmp_news.ui.setting.SettingScreen
+import com.azrinurvani.kmp_news.ui.setting.SettingViewModel
+import com.azrinurvani.kmp_news.utils.articles
 
 @Composable
-fun RootNavGraph(){
+fun RootNavGraph(
+    settingViewModel: SettingViewModel
+){
     val rootNavController = rememberNavController()
 
     NavHost(
@@ -27,7 +33,20 @@ fun RootNavGraph(){
         composable(
             route = SettingRouteScreen.Setting.route
         ){
-            SettingScreen(rootNavController = rootNavController)
+            SettingScreen(
+                rootNavController = rootNavController,
+                settingViewModel = settingViewModel
+            )
+
+        }
+
+        composable(
+            route = NewsRouteScreen.NewsDetail.route
+        ){
+            ArticleDetailScreen(
+                navController = rootNavController,
+                article = articles[0]
+            )
         }
     }
 }

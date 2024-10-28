@@ -10,12 +10,21 @@ import com.azrinurvani.kmp_news.ui.navigation.BottomNavigationItem
 import com.azrinurvani.kmp_news.ui.navigation.MainRouteScreen
 import kmp_news.composeapp.generated.resources.Res
 import kmp_news.composeapp.generated.resources.bookmark
+import kmp_news.composeapp.generated.resources.dark_mode
 import kmp_news.composeapp.generated.resources.headlines
 import kmp_news.composeapp.generated.resources.ic_bookmark_outlined
 import kmp_news.composeapp.generated.resources.ic_headline
 import kmp_news.composeapp.generated.resources.ic_search
+import kmp_news.composeapp.generated.resources.light_mode
 import kmp_news.composeapp.generated.resources.search
+import kmp_news.composeapp.generated.resources.system_default
+import org.jetbrains.compose.resources.StringResource
 import kotlin.random.Random
+
+
+//val API_KEY = BuildKonfig.API_KEY
+
+const val dataStoreFileName = "setting.preferences_pb"
 
 enum class Type{
     Mobile,
@@ -40,6 +49,14 @@ val bottomNavigationList = listOf(
     ),
 )
 
+enum class Theme(
+    val title : StringResource
+){
+    SYSTEM_DEFAULT(Res.string.system_default),
+    LIGHT_MODE(Res.string.light_mode),
+    DARK_MODE(Res.string.dark_mode)
+}
+
 //Dummy data for preview article item
 val articles: List<Article> = listOf(
     Article(
@@ -47,7 +64,7 @@ val articles: List<Article> = listOf(
         author = "The author",
         title = "This is the main news title headline. This is the main news title headline.",
         description = "This is the main news description. This is the main news description. This is the main news description",
-        url = "",
+        url = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         urlToImage = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         publishedAt = Random(100).nextInt().toString(),
         content = "What is the content?"
@@ -57,7 +74,7 @@ val articles: List<Article> = listOf(
         author = "The author",
         title = "This is the main news title headline. This is the main news title headline.",
         description = "This is the main news description. This is the main news description. This is the main news description",
-        url = "",
+        url = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         urlToImage = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         publishedAt = Random(100).nextInt().toString(),
         content = "What is the content?"
@@ -67,7 +84,7 @@ val articles: List<Article> = listOf(
         author = "The author",
         title = "This is the main news title headline. This is the main news title headline.",
         description = "This is the main news description. This is the main news description. This is the main news description",
-        url = "",
+        url = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         urlToImage = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         publishedAt = Random(100).nextInt().toString(),
         content = "What is the content?"
@@ -77,7 +94,7 @@ val articles: List<Article> = listOf(
         author = "The author",
         title = "This is the main news title headline. This is the main news title headline.",
         description = "This is the main news description. This is the main news description. This is the main news description",
-        url = "",
+        url = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         urlToImage = "https://www.marketscreener.com/images/reuters/2024-03-05T144855Z_1_LYNXNPEK240IP_RTROPTP_3_GERMANY-TESLA-FIRE.JPG",
         publishedAt = Random(100).nextInt().toString(),
         content = "What is the content?"
