@@ -25,6 +25,7 @@ import kotlin.random.Random
 
 const val BASE_URL = "https://newsapi.org/v2/"
 const val dataStoreFileName = "setting.preferences_pb"
+const val DB_NAME = "news_db"
 
 val API_KEY = BuildKonfig.API_KEY
 

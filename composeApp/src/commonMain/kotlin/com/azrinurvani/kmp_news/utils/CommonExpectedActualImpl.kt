@@ -3,6 +3,12 @@ package com.azrinurvani.kmp_news.utils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.azrinurvani.kmp_news.data.database.NewsDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.SynchronizedObject
 import kotlinx.coroutines.internal.synchronized
@@ -38,4 +44,15 @@ object AppSettings{
             }
         }
     }
+}
+
+expect fun getDatabaseBuilder() : RoomDatabase.Builder<NewsDatabase>
+
+fun getRoomDatabase(
+    builder : RoomDatabase.Builder<NewsDatabase>
+): NewsDatabase{
+    return builder
+        .setDriver(BundledSQLiteDriver()) //for get path of news_db stored from all platform (android,ios,desktop)
+        .setQueryCoroutineContext(Dispatchers.IO)
+        .build()
 }

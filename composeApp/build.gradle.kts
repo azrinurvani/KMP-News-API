@@ -11,10 +11,14 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
-
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
+    }
     androidTarget()
 
 //    androidTarget {
@@ -34,6 +38,8 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            // Required when using NativeSQLiteDriver
+            linkerOpts.add("-lsqlite3")
         }
     }
     
@@ -84,6 +90,10 @@ kotlin {
             //Data Store
             implementation(libs.androidx.data.store.core)
 
+            // Room + Sqlite
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -124,16 +134,29 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    dependencies {
+        debugImplementation(compose.uiTooling)
+    }
 }
-
+room {
+    schemaDirectory("$projectDir/schemas")
+}
 dependencies {
-    debugImplementation(compose.uiTooling)
+    //    ksp(libs.androidx.room.compiler)
+
+//    add("kspAndroid", libs.androidx.room.compiler)
+//    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+//    add("kspIosX64", libs.androidx.room.compiler)
+//    add("kspIosArm64", libs.androidx.room.compiler)
+//
+    // Room
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
 }
-//tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
-//    if (name != "kspCommonMainKotlinMetadata" ) {
-//        dependsOn("kspCommonMainKotlinMetadata")
-//    }
-//}
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata" ) {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
 
 compose.desktop {
     application {

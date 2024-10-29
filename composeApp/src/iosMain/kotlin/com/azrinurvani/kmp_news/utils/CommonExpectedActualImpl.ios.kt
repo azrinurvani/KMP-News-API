@@ -2,12 +2,16 @@ package com.azrinurvani.kmp_news.utils
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.azrinurvani.kmp_news.data.database.NewsDatabase
 import platform.Foundation.NSUUID
 import platform.UIKit.*
 import platform.Foundation.NSUUID
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
-import com.azrinurvani.kmp_news.utils.dataStoreFileName
+import data.database.NewsDatabase
+import data.database.instantiateImpl
 
 
 actual fun shareLink(url: String) {
@@ -44,5 +48,13 @@ actual fun dataStorePreferences(): DataStore<Preferences> {
             )
             requireNotNull(documentDirectory).path + "/$dataStoreFileName"
         }
+    )
+}
+
+actual fun getDatabaseBuilder(): RoomDatabase.Builder<NewsDatabase> {
+    val dbFilePath = NSHomeDirectory() + "/$DB_NAME"
+    return Room.databaseBuilder<NewsDatabase>(
+        name = dbFilePath,
+        factory =  { NewsDatabase::class.instantiateImpl() }
     )
 }

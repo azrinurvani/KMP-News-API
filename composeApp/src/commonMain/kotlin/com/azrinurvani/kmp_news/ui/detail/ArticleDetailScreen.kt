@@ -25,11 +25,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.azrinurvani.kmp_news.data.database.NewsDao
 import com.azrinurvani.kmp_news.data.model.Article
+import com.azrinurvani.kmp_news.data.repository.LocalNewsRepository
 import com.azrinurvani.kmp_news.theme.detailImageSize
 import com.azrinurvani.kmp_news.theme.xLargePadding
+import com.azrinurvani.kmp_news.utils.getDatabaseBuilder
+import com.azrinurvani.kmp_news.utils.getRoomDatabase
 import com.azrinurvani.kmp_news.utils.shareLink
 import kmp_news.composeapp.generated.resources.Res
 import kmp_news.composeapp.generated.resources.ic_bookmark_outlined
@@ -43,9 +48,16 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ArticleDetailScreen(
     navController: NavController,
-    article : Article
+    article : Article,
+    newsDao: NewsDao
 ){
-    var uriHandle = LocalUriHandler.current
+    val articleDetailViewModel = viewModel{
+        ArticleDetailViewModel(
+            localNewsRepository = LocalNewsRepository(newsDao)
+        )
+    }
+
+    val uriHandle = LocalUriHandler.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -93,7 +105,7 @@ fun ArticleDetailScreen(
 
                     IconButton(
                         onClick = {
-
+                            articleDetailViewModel.bookmarkArticle(article)
                         }
                     ){
                         Icon(

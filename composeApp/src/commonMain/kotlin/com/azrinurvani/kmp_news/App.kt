@@ -10,6 +10,8 @@ import com.azrinurvani.kmp_news.ui.navigation.graphs.RootNavGraph
 import com.azrinurvani.kmp_news.ui.setting.SettingViewModel
 import com.azrinurvani.kmp_news.utils.AppPreferences
 import com.azrinurvani.kmp_news.utils.dataStorePreferences
+import com.azrinurvani.kmp_news.utils.getDatabaseBuilder
+import com.azrinurvani.kmp_news.utils.getRoomDatabase
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -25,11 +27,16 @@ fun App() {
     val settingViewModel = viewModel { SettingViewModel(appPreferences = appPreferences) }
     val currentTheme by settingViewModel.currentTheme.collectAsState()
 
+    val newsDao = remember {
+        getRoomDatabase(getDatabaseBuilder()).newsDao()
+    }
+
     NewsTheme(
         currentTheme
     ) {
        RootNavGraph(
-           settingViewModel = settingViewModel
+           settingViewModel = settingViewModel,
+           newsDao = newsDao
        )
     }
 }
