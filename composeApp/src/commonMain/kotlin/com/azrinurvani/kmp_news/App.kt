@@ -5,6 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.azrinurvani.kmp_news.data.repository.LocalNewsRepository
 import com.azrinurvani.kmp_news.theme.NewsTheme
 import com.azrinurvani.kmp_news.ui.navigation.graphs.RootNavGraph
 import com.azrinurvani.kmp_news.ui.setting.SettingViewModel
@@ -24,12 +25,19 @@ fun App() {
         )
     }
 
-    val settingViewModel = viewModel { SettingViewModel(appPreferences = appPreferences) }
-    val currentTheme by settingViewModel.currentTheme.collectAsState()
-
     val newsDao = remember {
         getRoomDatabase(getDatabaseBuilder()).newsDao()
     }
+
+    val settingViewModel = viewModel {
+        SettingViewModel(
+            appPreferences = appPreferences,
+            localNewsRepository = LocalNewsRepository(newsDao = newsDao)
+        )
+    }
+    val currentTheme by settingViewModel.currentTheme.collectAsState()
+
+
 
     NewsTheme(
         currentTheme

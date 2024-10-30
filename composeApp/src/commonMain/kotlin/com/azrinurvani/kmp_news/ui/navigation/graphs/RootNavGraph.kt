@@ -13,8 +13,6 @@ import com.azrinurvani.kmp_news.ui.navigation.NewsRouteScreen
 import com.azrinurvani.kmp_news.ui.navigation.SettingRouteScreen
 import com.azrinurvani.kmp_news.ui.setting.SettingScreen
 import com.azrinurvani.kmp_news.ui.setting.SettingViewModel
-import com.azrinurvani.kmp_news.utils.articles
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -55,7 +53,7 @@ fun RootNavGraph(
                 val article : Article = Json.decodeFromString(it)
                 ArticleDetailScreen(
                     navController = rootNavController,
-                    article = article,
+                    currentArticle = article,
                     newsDao = newsDao
                 )
             }

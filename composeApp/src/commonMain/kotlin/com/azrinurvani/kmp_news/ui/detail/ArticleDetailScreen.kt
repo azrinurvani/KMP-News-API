@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,10 +34,9 @@ import com.azrinurvani.kmp_news.data.model.Article
 import com.azrinurvani.kmp_news.data.repository.LocalNewsRepository
 import com.azrinurvani.kmp_news.theme.detailImageSize
 import com.azrinurvani.kmp_news.theme.xLargePadding
-import com.azrinurvani.kmp_news.utils.getDatabaseBuilder
-import com.azrinurvani.kmp_news.utils.getRoomDatabase
 import com.azrinurvani.kmp_news.utils.shareLink
 import kmp_news.composeapp.generated.resources.Res
+import kmp_news.composeapp.generated.resources.ic_bookmark_filled
 import kmp_news.composeapp.generated.resources.ic_bookmark_outlined
 import kmp_news.composeapp.generated.resources.ic_browse
 import kmp_news.composeapp.generated.resources.logo
@@ -48,12 +48,18 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ArticleDetailScreen(
     navController: NavController,
-    article : Article,
+    currentArticle : Article,
     newsDao: NewsDao
 ){
     val articleDetailViewModel = viewModel{
         ArticleDetailViewModel(
             localNewsRepository = LocalNewsRepository(newsDao)
+        )
+    }
+
+    LaunchedEffect(Unit){
+        articleDetailViewModel.isArticleBookmarked(
+            currentArticle = currentArticle
         )
     }
 
@@ -83,7 +89,7 @@ fun ArticleDetailScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            shareLink(article.url)
+                            shareLink(currentArticle.url)
                         }
                     ){
                         Icon(
@@ -94,7 +100,7 @@ fun ArticleDetailScreen(
 
                     IconButton(
                         onClick = {
-                            uriHandle.openUri(article.url)
+                            uriHandle.openUri(currentArticle.url)
                         }
                     ){
                         Icon(
@@ -105,11 +111,16 @@ fun ArticleDetailScreen(
 
                     IconButton(
                         onClick = {
-                            articleDetailViewModel.bookmarkArticle(article)
+                            articleDetailViewModel.bookmarkArticle(currentArticle)
                         }
                     ){
                         Icon(
-                            painter = painterResource(Res.drawable.ic_bookmark_outlined),
+                            painter = painterResource(
+                                if (articleDetailViewModel.isBookmarked)
+                                    Res.drawable.ic_bookmark_filled
+                                else
+                                    Res.drawable.ic_bookmark_outlined
+                            ),
                             contentDescription = null
                         )
                     }
@@ -131,7 +142,7 @@ fun ArticleDetailScreen(
                         .height(detailImageSize)
                         .clip(MaterialTheme.shapes.large)
                         .background(Color.Gray),
-                    model = article.urlToImage,
+                    model = currentArticle.urlToImage,
                     error = painterResource(Res.drawable.logo),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
@@ -140,7 +151,7 @@ fun ArticleDetailScreen(
 
             item {
                 Text(
-                    text = article.title,
+                    text = currentArticle.title,
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold
                     ),
@@ -148,7 +159,7 @@ fun ArticleDetailScreen(
                 )
             }
 
-            article.description?.let { description->
+            currentArticle.description?.let { description->
                 item {
                     Text(
                         text = description,
@@ -158,7 +169,7 @@ fun ArticleDetailScreen(
                 }
             }
 
-            article.publishedAt.let { publishedAt->
+            currentArticle.publishedAt.let { publishedAt->
                 item {
                     Text(
                         text = publishedAt,

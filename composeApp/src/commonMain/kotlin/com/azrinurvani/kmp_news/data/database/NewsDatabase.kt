@@ -17,6 +17,8 @@ import com.azrinurvani.kmp_news.data.model.Article
 abstract class NewsDatabase : RoomDatabase(),DB{
     abstract fun newsDao() : NewsDao
 
+    //Wajib di implement jikalau menggunakan Room Database untuk Multiplatform
+    // dan penamaannya harus sama dengan yang ditulis yaitu clearAllTables()
     override fun clearAllTables() {
         super.clearAllTables()
     }

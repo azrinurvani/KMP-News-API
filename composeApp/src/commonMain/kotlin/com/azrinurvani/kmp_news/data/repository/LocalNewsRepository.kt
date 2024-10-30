@@ -16,4 +16,13 @@ class LocalNewsRepository(
 
     fun getArticles() = newsDao.getArticles().flowOn(Dispatchers.IO)
 
+    suspend fun getArticle(articleId: String) = newsDao.getArticle(articleId = articleId)
+
+    suspend fun deleteArticle(article: Article){
+        newsDao.delete(article = article)
+    }
+
+    suspend fun deleteAllArticle(){
+        newsDao.deleteAllArticle()
+    }
 }
