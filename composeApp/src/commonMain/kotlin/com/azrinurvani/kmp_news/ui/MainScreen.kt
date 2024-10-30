@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.azrinurvani.kmp_news.data.database.NewsDao
 import com.azrinurvani.kmp_news.ui.navigation.NewsBottomNavigationBar
 import com.azrinurvani.kmp_news.ui.navigation.SettingRouteScreen
 import com.azrinurvani.kmp_news.ui.navigation.graphs.MainNavGraph
@@ -36,8 +35,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    rootNavController: NavHostController,
-    newsDao : NewsDao
+    rootNavController: NavHostController
 ){
     val homeNavController = rememberNavController()
 
@@ -133,8 +131,7 @@ fun MainScreen(
         MainNavGraph(
             rootNavController = rootNavController,
             homeNavController = homeNavController,
-            paddingValues = innerPadding,
-            newsDao = newsDao
+            paddingValues = innerPadding
         )
     }
 }

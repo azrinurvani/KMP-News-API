@@ -1,5 +1,8 @@
 package com.azrinurvani.kmp_news.ui.headline
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.azrinurvani.kmp_news.data.model.Article
@@ -8,6 +11,7 @@ import com.azrinurvani.kmp_news.data.model.NewsResponse
 import com.azrinurvani.kmp_news.data.repository.OnlineNewsRepository
 import com.azrinurvani.kmp_news.utils.Resource
 import com.azrinurvani.kmp_news.utils.articles
+import com.azrinurvani.kmp_news.utils.categoryList
 import io.ktor.client.call.body
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -26,6 +30,8 @@ class HeadlineViewModel(
     val newsStateFlow : StateFlow<Resource<List<Article>>>
         get() = _newsStateFlow
 
+    var category by mutableStateOf(categoryList[0])
+
     init {
         getHeadline()
     }
@@ -36,7 +42,7 @@ class HeadlineViewModel(
             delay(2000)
             try {
 //                val articleList = articles
-                val httpResponse = onlineNewsRepository.getNews()
+                val httpResponse = onlineNewsRepository.getNews(category = category)
 
                 if (httpResponse.status.value in 200..299){
                     val body = httpResponse.body<NewsResponse>()

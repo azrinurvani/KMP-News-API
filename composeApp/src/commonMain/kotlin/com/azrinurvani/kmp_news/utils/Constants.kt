@@ -34,6 +34,15 @@ enum class Type{
     Desktop
 }
 
+val categoryList = arrayListOf(
+    "Business",
+    "Entertainment",
+    "General",
+    "Health",
+    "Science",
+    "Sports",
+    "Technology")
+
 val bottomNavigationList = listOf(
     BottomNavigationItem(
         icon = Res.drawable.ic_headline,

@@ -19,42 +19,14 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class OnlineNewsRepository {
-    private val httpClient = HttpClient {
-        defaultRequest {
-            url(BASE_URL)
-            contentType(ContentType.Application.Json)
-        }
-        install(HttpTimeout){
-            requestTimeoutMillis = 60_000
-        }
-        install(ContentNegotiation){
-            json(
-                Json {
-                    prettyPrint = true //format output json pretty format
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                    explicitNulls = false
-                }
-            )
-        }
-        install(Logging){
-            logger = Logger.DEFAULT
-            level = LogLevel.ALL
-            logger = object : Logger{
-                override fun log(message: String) {
-                    co.touchlab.kermit.Logger.d("KtorClient"){
-                        message
-                    }
-                }
-            }
-        }
-    }
+class OnlineNewsRepository(
+    private val httpClient : HttpClient
+) {
 
-    suspend fun getNews() : HttpResponse{
+    suspend fun getNews(category : String) : HttpResponse{
         return httpClient.get{
             url("top-headlines")
-            parameter("country","us")
+            parameter("category",category)
             parameter("apiKey",BuildKonfig.API_KEY)
         }
     }

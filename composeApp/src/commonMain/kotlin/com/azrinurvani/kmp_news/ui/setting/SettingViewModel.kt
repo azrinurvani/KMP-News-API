@@ -2,7 +2,6 @@ package com.azrinurvani.kmp_news.ui.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.azrinurvani.kmp_news.data.repository.LocalNewsRepository
 import com.azrinurvani.kmp_news.utils.AppPreferences
 import kotlinx.coroutines.Dispatchers

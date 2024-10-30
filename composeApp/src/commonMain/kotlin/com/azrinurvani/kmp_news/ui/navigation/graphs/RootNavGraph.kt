@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.azrinurvani.kmp_news.data.database.NewsDao
 import com.azrinurvani.kmp_news.data.model.Article
 import com.azrinurvani.kmp_news.ui.MainScreen
 import com.azrinurvani.kmp_news.ui.detail.ArticleDetailScreen
@@ -17,8 +16,7 @@ import kotlinx.serialization.json.Json
 
 @Composable
 fun RootNavGraph(
-    settingViewModel: SettingViewModel,
-    newsDao: NewsDao
+    settingViewModel: SettingViewModel
 ){
     val rootNavController = rememberNavController()
 
@@ -31,8 +29,7 @@ fun RootNavGraph(
             route = Graph.MainScreenGraph
         ){
             MainScreen(
-                rootNavController = rootNavController,
-                newsDao = newsDao
+                rootNavController = rootNavController
             )
         }
 
@@ -53,8 +50,7 @@ fun RootNavGraph(
                 val article : Article = Json.decodeFromString(it)
                 ArticleDetailScreen(
                     navController = rootNavController,
-                    currentArticle = article,
-                    newsDao = newsDao
+                    currentArticle = article
                 )
             }
 

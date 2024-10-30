@@ -26,12 +26,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import com.azrinurvani.kmp_news.data.database.NewsDao
 import com.azrinurvani.kmp_news.data.model.Article
-import com.azrinurvani.kmp_news.data.repository.LocalNewsRepository
+import com.azrinurvani.kmp_news.di.koinViewModel
 import com.azrinurvani.kmp_news.theme.detailImageSize
 import com.azrinurvani.kmp_news.theme.xLargePadding
 import com.azrinurvani.kmp_news.utils.shareLink
@@ -48,14 +46,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ArticleDetailScreen(
     navController: NavController,
-    currentArticle : Article,
-    newsDao: NewsDao
+    currentArticle : Article
 ){
-    val articleDetailViewModel = viewModel{
-        ArticleDetailViewModel(
-            localNewsRepository = LocalNewsRepository(newsDao)
-        )
-    }
+    val articleDetailViewModel = koinViewModel<ArticleDetailViewModel>()
 
     LaunchedEffect(Unit){
         articleDetailViewModel.isArticleBookmarked(
