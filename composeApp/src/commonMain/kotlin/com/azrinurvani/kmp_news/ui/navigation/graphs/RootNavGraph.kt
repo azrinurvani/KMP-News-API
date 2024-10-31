@@ -1,6 +1,8 @@
 package com.azrinurvani.kmp_news.ui.navigation.graphs
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,22 +18,20 @@ import kotlinx.serialization.json.Json
 
 @Composable
 fun RootNavGraph(
+    rootNavController : NavHostController,
+    innerPaddingValues: PaddingValues,
     settingViewModel: SettingViewModel
 ){
-    val rootNavController = rememberNavController()
 
     NavHost(
         navController = rootNavController,
         route = Graph.RootScreenGraph,
         startDestination = Graph.MainScreenGraph
     ){
-        composable(
-            route = Graph.MainScreenGraph
-        ){
-            MainScreen(
-                rootNavController = rootNavController
-            )
-        }
+        mainNavGraph(
+            rootNavController = rootNavController,
+            paddingValues = innerPaddingValues
+        )
 
         composable(
             route = SettingRouteScreen.Setting.route

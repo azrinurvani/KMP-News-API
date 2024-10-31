@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.azrinurvani.kmp_news.di.koinViewModel
 import com.azrinurvani.kmp_news.theme.NewsTheme
-import com.azrinurvani.kmp_news.ui.navigation.graphs.RootNavGraph
+import com.azrinurvani.kmp_news.ui.MainScreen
 import com.azrinurvani.kmp_news.ui.setting.SettingViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -19,8 +19,8 @@ fun App() {
     NewsTheme(
         currentTheme
     ) {
-       RootNavGraph(
-           settingViewModel = settingViewModel
-       )
+        MainScreen(
+            settingViewModel = settingViewModel
+        )
     }
 }

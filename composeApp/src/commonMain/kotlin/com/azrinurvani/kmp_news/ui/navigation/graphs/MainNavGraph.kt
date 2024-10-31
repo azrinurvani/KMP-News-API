@@ -5,27 +5,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.azrinurvani.kmp_news.ui.bookmark.BookmarkScreen
 import com.azrinurvani.kmp_news.ui.headline.HeadlineScreen
 import com.azrinurvani.kmp_news.ui.navigation.Graph
 import com.azrinurvani.kmp_news.ui.navigation.MainRouteScreen
 import com.azrinurvani.kmp_news.ui.search.SearchScreen
 
-@Composable
-fun MainNavGraph(
+fun NavGraphBuilder.mainNavGraph(
     rootNavController: NavHostController,
-    homeNavController: NavHostController,
     paddingValues: PaddingValues
 ){
 
-    NavHost(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues = paddingValues),
-        navController = homeNavController,
+    navigation(
         route = Graph.MainScreenGraph,
         startDestination = MainRouteScreen.Headline.route
     ){
@@ -33,7 +29,8 @@ fun MainNavGraph(
             route = MainRouteScreen.Headline.route
         ){
             HeadlineScreen(
-                navController = rootNavController
+                navController = rootNavController,
+                paddingValues = paddingValues
             )
         }
 
@@ -41,7 +38,8 @@ fun MainNavGraph(
             route = MainRouteScreen.Search.route
         ){
             SearchScreen(
-                navController = rootNavController
+                navController = rootNavController,
+                paddingValues = paddingValues
             )
         }
 
@@ -49,7 +47,8 @@ fun MainNavGraph(
             route = MainRouteScreen.Bookmark.route
         ){
             BookmarkScreen(
-                navController = rootNavController
+                navController = rootNavController,
+                paddingValues = paddingValues
             )
         }
     }
